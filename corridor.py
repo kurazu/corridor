@@ -87,7 +87,7 @@ def ceiling():
     verts = Shape(0, 0, 2.51)
     floor_shape(verts)
     return verts
-    
+
 @mesh
 def back_wall():
     verts = Shape(3.43, 0, 0)
@@ -159,7 +159,18 @@ def bathroom_wall_side():
     v = Shape(3.43 - 0.945, 0.96, 0)
     rect(v, dx=-0.535, dz=2.51)
     return v
-    
+
+@mesh
+def east_wall_left():
+    v = Shape(0, 3.7, 0)
+    rect(v, dx=1.005, dz=2.51)
+    return v
+
+@mesh
+def east_wall_top():
+    v = Shape(1.005, 3.7, 2.05)
+    rect(v, dx=0.945, dz=0.46)
+    return v
 
 def main():
     scene = bpy.context.scene
