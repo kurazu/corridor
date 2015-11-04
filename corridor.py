@@ -68,7 +68,10 @@ def rect(v, dx=None, dy=None, dz=None):
         v.dy(-dy, 'top')
         v.dz(-dz, 'west')
     elif dy is None:
-        assert(False)
+        v.dx(dx, 'bottom')
+        v.dz(dz, 'south')
+        v.dx(-dx, 'top')
+        v.dz(-dz, 'north')
     else:
         assert(False)
 
@@ -125,6 +128,36 @@ def south_wall_top():
 def south_wall_right():
     v = Shape(1.95, 3.7 - 0.08, 0)
     rect(v, dy=0.08, dz=2.51)
+    return v
+
+@mesh
+def west_wall_left():
+    v = Shape(3.43, 0, 0)
+    rect(v, dx=-1.46, dz=2.51)
+    return v
+
+@mesh
+def west_wall_top():
+    v = Shape(3.43 - 1.46, 0, 2.05)
+    rect(v, dx=-1.05, dz=0.46)
+    return v
+
+@mesh
+def west_wall_right():
+    v = Shape(0.92, 0, 0)
+    rect(v, dx=-0.92, dz=2.51)
+    return v
+
+@mesh
+def bathroom_wall_top():
+    v = Shape(3.43, 0.96, 2.05)
+    rect(v, dx=-0.945, dz=0.46)
+    return v
+
+@mesh
+def bathroom_wall_side():
+    v = Shape(3.43 - 0.945, 0.96, 0)
+    rect(v, dx=-0.535, dz=2.51)
     return v
     
 
