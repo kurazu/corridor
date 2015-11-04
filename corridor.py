@@ -31,24 +31,20 @@ class Shape(list):
         tail = self[-1]
         return self.add(tail.x, tail.y, tail.z + dz, name)
 
-    def i(self, name):
+    def point_by_name(self, name):
         point = self.names[name]
         return self.index(point)
 
-    def a(self):
-        result = list(range(len(self)))
-        # result.append(0)
-        return result
+    def faces(self):
+        return [list(range(len(self)))]
 
 
 objects = []
 
 def mesh(func):
     name = func.__name__
-   
-    iterator = iter(func())
-    verts = next(iterator)
-    faces = next(iterator)
+    verts = func()
+    faces = verts.faces()
     mesh = bpy.data.meshes.new(name + ' mesh')
     obj = bpy.data.objects.new(name, mesh)
     mesh.from_pydata(verts, [], faces)
@@ -78,72 +74,58 @@ def rect(v, dx=None, dy=None, dz=None):
 
 @mesh
 def floor():
-    verts = Shape(0, 0, 0)
-    floor_shape(verts)
-    yield verts
-
-    faces = [verts.a()]
-    yield faces
+    v = Shape(0, 0, 0)
+    floor_shape(v)
+    return v
 
 
 @mesh
 def ceiling():
     verts = Shape(0, 0, 2.51)
     floor_shape(verts)
-    yield verts
-
-    faces = [verts.a()]
-    yield faces
+    return verts
     
 @mesh
 def back_wall():
     verts = Shape(3.43, 0, 0)
     rect(verts, dy=0.96, dz=2.51)
-    yield verts
-
-    yield [verts.a()]
+    return verts
 
 @mesh
 def outer_wall_left():
     v = Shape(0, 0, 0)
     rect(v, dy=1.43, dz=2.51)
-    yield v
-    yield [v.a()]
+    return v
 
 @mesh
 def outer_wall_top():
     v = Shape(0, 1.43, 2.51)
     rect(v, dy=1.0, dz=-0.46)
-    yield v
-    yield [v.a()]
+    return v
 
 @mesh
 def outer_wall_right():
     v = Shape(0, 2.43, 0)
     rect(v, dy=1.27, dz=2.51)
-    yield v
-    yield [v.a()]
+    return v
 
 @mesh
 def south_wall_left():
     v = Shape(1.95, 0.96, 0)
     rect(v, dy=1.66, dz=2.51)
-    yield v
-    yield [v.a()]
+    return v
 
 @mesh
 def south_wall_top():
     v = Shape(1.95, 3.7 - 0.08 - 1.0, 2.05)
     rect(v, dy=1.0, dz=0.46)
-    yield v
-    yield [v.a()]
+    return v
 
 @mesh
 def south_wall_right():
     v = Shape(1.95, 3.7 - 0.08, 0)
     rect(v, dy=0.08, dz=2.51)
-    yield v
-    yield [v.a()]
+    return v
     
 
 def main():
